@@ -10,7 +10,6 @@ interface IERC20 {
 contract ngl {
     address public owner;
     IERC20 public usdtToken;
-    uint256 public messageFee = 1e4; // 0.01 USDT with 6 decimals (USDT uses 6 decimals)
 
     struct Message {
         string content;
@@ -28,9 +27,6 @@ contract ngl {
 
     function sendMessage(string memory _content) external {
         require(bytes(_content).length > 0, "Message cannot be empty");
-
-        // Transfer 0.01 USDT from sender to the contract
-        require(usdtToken.transferFrom(msg.sender, address(this), messageFee), "USDT payment failed");
 
         messages.push(Message({
             content: _content,
